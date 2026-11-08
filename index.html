@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vasúti Forgalomirányító és Váltóállomás Szimulátor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <section id="start-screen" class="screen">
+        <header class="app-header">
+            <h1>Vasúti Forgalomirányító Szimulátor</h1>
+        </header>
+        <main class="menu-container">
+            <div class="card setup-card">
+                <h2>Új szimuláció indítása</h2>
+                <div class="form-group">
+                    <label for="player-name">Játékos neve:</label>
+                    <input type="text" id="player-name" placeholder="Add meg a neved..." autocomplete="off" required>
+                    <span class="error-text hidden" id="name-error-msg">A név megadása kötelező!</span>
+                </div>
+                <div class="form-group">
+                    <label for="difficulty">Válassz pályát/nehézséget:</label>
+                    <select id="difficulty">
+                        <option value="1">1. szint: Kitérő vágány (Könnyű)</option>
+                        <option value="2">2. szint: Rendező-pályaudvar (Közepes)</option>
+                        <option value="3">3. szint: Fejpályaudvar (Nehéz)</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button id="btn-start-game" class="btn btn-primary">Szimuláció Indítása</button>
+                    <button id="btn-load-game" class="btn btn-secondary">Játék Betöltése</button>
+                </div>
+            </div>
+            <div class="card guide-card">
+                <h2>Irányítás és Szabályzat</h2>
+                <ul class="guide-list">
+                    <li><strong>Bal egérgomb:</strong> Váltó átállítása / Fényjelző kapcsolása (Zöld/Vörös)</li>
+                    <li><strong>Jobb egérgomb:</strong> Kézi vészfék (STOP/START)</li>
+                </ul>
+            </div>
+            <div class="card leaderboard-card">
+                <h2>Diszpécserek Dicsőségkönyve</h2>
+                <div class="leaderboard-tabs">
+                    <button class="tab-btn active" data-level="1">1. szint</button>
+                    <button class="tab-btn" data-level="2">2. szint</button>
+                    <button class="tab-btn" data-level="3">3. szint</button>
+                </div>
+                <div class="table-wrapper">
+                    <table id="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Helyezés</th>
+                                <th>Diszpécser</th>
+                                <th>Idő</th>
+                                <th>Hibák</th>
+                                <th>Dátum</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    <section id="game-screen" class="screen hidden">
+        <header class="hud-bar">
+            <div class="hud-item player-info">
+                <span class="hud-label">Diszpécser:</span>
+                <span class="hud-value" id="hud-player-name">-</span>
+            </div>
+            <div class="hud-item level-info">
+                <span class="hud-label">Pálya:</span>
+                <span class="hud-value" id="hud-level-name">-</span>
+            </div>
+            <div class="hud-item timer-info">
+                <span class="hud-label">Eltelt idő:</span>
+                <span class="hud-value font-mono" id="hud-timer">00:00</span>
+            </div>
+            <div class="hud-item trains-info">
+                <span class="hud-label">Célba ért:</span>
+                <span class="hud-value font-mono" id="hud-train-counter">0 / 0</span>
+            </div>
+            <div class="hud-item errors-info">
+                <span class="hud-label">Hiba / Késés:</span>
+                <span class="hud-value font-mono" id="hud-error-counter">0</span>
+            </div>
+            <div class="hud-controls">
+                <button id="btn-pause-resume" class="btn btn-hud">Szünet</button>
+                <button id="btn-reset-game" class="btn btn-hud btn-warning">Alaphelyzet</button>
+                <button id="btn-save-game" class="btn btn-hud">Mentés</button>
+                <button id="btn-exit-to-menu" class="btn btn-hud btn-danger">Menü</button>
+            </div>
+        </header>
+        <main class="canvas-wrapper">
+            <canvas id="game-canvas" width="1024" height="768"></canvas>
+        </main>
+        <footer class="game-footer-bar">
+            <span><strong>Irányítás:</strong> Bal kattintás: Váltó / Fényjelző kapcsolása | Jobb kattintás: Kézi vészfék (STOP)</span>
+        </footer>
+    </section>
+
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal-card">
+            <h2 id="modal-title">Eredmény</h2>
+            <p id="modal-message">Üzenet</p>
+            <div class="modal-stats" id="modal-stats-container"></div>
+            <div class="modal-actions">
+                <button id="modal-btn-restart" class="btn btn-primary">Újra</button>
+                <button id="modal-btn-menu" class="btn btn-secondary">Vissza a Menübe</button>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="./js/app.js"></script>
+</body>
+</html>
